@@ -85,6 +85,9 @@ let bot = {
               );
           } catch (err) {
               //console.error(err);
+              ws.onopen
+                console.log('WEBSOCKET REOPENED after error: ' + error)
+                .then(() => ws.onmessage);
           }
          
       }, 60000);
@@ -136,7 +139,7 @@ let bot = {
               var binarytickTime = new Date(tickTime * timerz).toLocaleString();
   
            
-              //currentTickStyle = lastTick === tick ? 'black' : tick > lastTick ?(console.log(mvalueUp , "points",'=>','UP')):( console.log(mvalueDown, "points",'=>','DOWN'));
+              currentTickStyle = lastTick === tick ? 'black' : tick > lastTick ?(console.log(mvalueUp , "points",'=>','UP')):( console.log(mvalueDown, "points",'=>','DOWN'));
               
               //console.log(' TICK===','\n',currentTick,'\n',balance); 
               var secondS = new Date(data.ohlc.epoch * timerz);
@@ -176,7 +179,22 @@ let bot = {
   
   
   //////////////////////////////////////////////////////////////
-  
+  ///////////////////////////////////////-#3
+ function webrestart() {
+    setTimeout(() => {
+        if (starter == true) {
+            try {
+                ws.onopen
+                console.log('WEBSOCKET RE--OPENED')
+                .then(() => ws.onmessage);
+            } catch (error) {
+                console.log('ERROR WHILE TRYING TO RELOAD WEBSOCKET'+ error)
+                ws.onopen
+            }
+        }
+    }, 3600000);// in 1HOUR
+} webrestart();
+
   
   /////////////////////////////////////////////////////////
   //* NOTIFICATIONS  TRIGGER //////////////////////////
@@ -273,13 +291,20 @@ let bot = {
       //console.error(err);
     }
   
-    handleNotification() //FOR INSTANT TRADE ALERT
+    //handleNotification() //FOR INSTANT TRADE ALERT
   
   
-    console.log('M9 =>',movinAvg,'\n','15MN =>',redftn,'\n','5MN =>',redbelow,'\n',second,'TIK =>',lastTick,'\n',balance,'up value =>',balanceValue,"==>",valueUp );
+    //console.log('M9 =>',movinAvg,'\n','15MN =>',redftn,'\n','5MN =>',redbelow,'\n',second,'TIK =>',lastTick,'\n',balance,'up value =>',balanceValue,"==>",valueUp );
     //end of interval
   }, 2000);
   ////////////////MAIN INTERVAL SET UP FOR DATA FEED///////////////////////
+
+// restarting WEBSOCKET CONNECTIONS
+  setInterval(async() => {
+    webrestart()
+    
+    console.log('WEBSOCKET RELOADED');
+  }, 7200000);//RELOAD EVERY 2HOURS
   //////////////////////////////////////////////////////////////
   export {movinAvg, lastfiveminOpen, lastTick}
   
