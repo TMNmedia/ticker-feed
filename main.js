@@ -27,7 +27,7 @@ let bot = {
   var message = null;
   var messageT = null;
   var msgloss = null;
-  var msg = null;
+  var msgs = null;
   var entrySignalM = null;
   //////////////////////////////////////////////////////
   
@@ -83,14 +83,24 @@ let bot = {
 ///////////////////////////////////////////////////////////
 
 ws.onopen = function(evt) {
-    ws.send(JSON.stringify({ticks_history: "R_25",
-     subscribe: 1,
-     adjust_start_time: 1,
-     count: 1,
-     end: "latest",
-     granularity: 900,
-     start: 1,
-     style: "candles"}));
+    try {
+        ws.send(JSON.stringify({ticks_history: "R_25",
+        subscribe: 1,
+        adjust_start_time: 1,
+        count: 1,
+        end: "latest",
+        granularity: 900,
+        start: 1,
+        style: "candles"}));
+        console.log('WEBSOCKET send successfully')
+
+    } catch (error) {
+    if (error) {
+    ws.onopen
+    console.log('WEBSOCKET REOPENED after error: ' + error)
+    .then(() => ws.onmessage);
+}
+}
 
 };
 
@@ -155,26 +165,24 @@ try {
  };
 
  ///////////////////////////////////////-#3
-
+ function webrestart() {
+    setTimeout(() => {
+        if (starter == true) {
+            try {
+                ws.onopen
+                console.log('WEBSOCKET RE--OPENED')
+                .then(() => ws.onmessage);
+            } catch (error) {
+                console.log('ERROR WHILE TRYING TO RELOAD WEBSOCKET'+ error)
+                ws.onopen
+            }
+        }
+    }, 3600000);// in 1HOUR
+} webrestart();
 
 
 ///////////////////////////////////////////////new sets of codes
-setInterval(async() => {
-    //lastPrice= emp_name;
-    //fiveminElement.innerText = emp_name // working 
-    
-    
 
-    //////////////////////////////////////////////
-
-    //stockPriceElement.innerText = lastTick;
-    //datePriceElement.innerText = lastfiveminOpen;
-    //fiveminElement.innerText = movinAvg;
-
-
-    console.log('signal text',lastTick);
-  }, 2000);
-  //*/
 
 //* NOTIFICATIONS  TRIGGER //////////////////////////
 function handleNotification(){
@@ -301,4 +309,12 @@ function handleNotification(){
     console.log('M9 =>',movinAvg,'\n','15MN =>',lastfifteenOpen,'\n','5MN =>',lastfiveminOpen,'\n',second,'TIK =>',lastTick,'\n',balance,'up value =>',balanceValue,"==>",valueUp );
     //end of interval
   }, 2000);
+
+
   ///////////
+// restarting WEBSOCKET CONNECTIONS
+  setInterval(async() => {
+    webrestart()
+    
+    console.log('WEBSOCKET RELOADED');
+  }, 7200000);//RELOAD EVERY 2HOURS
