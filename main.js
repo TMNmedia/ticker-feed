@@ -17,6 +17,7 @@ let entryTimeElement = document.getElementById("entryValueTime");
 let entryValueElement = document.getElementById("entryvalue");
 let targetPriceElement = document.getElementById("targetPrice");
 let upvalueElement = document.getElementById("upvalue");
+let balanceElement = document.getElementById("balance");
 
 // /////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////
@@ -188,6 +189,7 @@ try {
 function handleNotification(){
     if (second < 40 && second > 1) { 
       try {
+        balanceElement.innerText =  balance
       if (balance == 4 && balanceValue >= +minimumValue){
         targetPrice = lastTick - barrier;
         var entrySignal = lastTick;
