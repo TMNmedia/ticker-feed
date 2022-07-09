@@ -27,7 +27,7 @@ let bot = {
   var message = null;
   var messageT = null;
   var msgloss = null;
-  var msgs = null;
+  var msg = null;
   var entrySignalM = null;
   //////////////////////////////////////////////////////
   
@@ -92,7 +92,7 @@ ws.onopen = function(evt) {
         granularity: 900,
         start: 1,
         style: "candles"}));
-        console.log('WEBSOCKET send successfully')
+    console.log('WEBSOCKET send successfully')
 
     } catch (error) {
     if (error) {
