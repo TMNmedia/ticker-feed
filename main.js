@@ -270,7 +270,7 @@ function handleNotification(){
 
 
     try {
-      if (lastfifteenOpen < movinAvg) {//////////SIGNAL FROM 15MINUTES TIMEFRAME
+      if (lastTick < lastfifteenOpen) {//////////SIGNAL FROM 15MINUTES TIMEFRAME
         if (lastfiveminOpen <= lastfifteenOpen && lastfiveminOpen < movinAvg) {
           if ( lastTick < lastfiveminOpen && lastTick < movinAvg) { //SIGNAL FROM 5MINUTES TIMEFRAME
           console.log('15Min-Open: =>',lastfifteenOpen,'\n','5MinOpen: =>',lastfiveminOpen,'\n', 'Tick: =>',lastTick )
